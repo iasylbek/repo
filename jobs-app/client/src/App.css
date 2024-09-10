@@ -1,5 +1,6 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -39,4 +40,17 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.MuiTableContainer-root {
+  width: 100% !important;
+}
+
+.MuiTable-root {
+  width: 100% !important;
+}
+
+.MuiPaper-root {
+  width: 100% !important;
+  box-sizing: border-box;
 }
