@@ -26,8 +26,6 @@ export const loginUser = createAsyncThunk(
       userData
     );
 
-    debugger;
-
     console.log('response', response);
     localStorage.setItem('token', response.data.token); // Store the token
     console.log('Token stored:', response.data.token); // Log token
@@ -58,7 +56,6 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        debugger;
         state.user = action.payload.user;
         state.token = action.payload.token;
         console.log('User state after login:', state.user);

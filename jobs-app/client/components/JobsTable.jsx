@@ -60,8 +60,12 @@ const JobsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.map((job) => (
-              <TableRow key={job.id} onClick={() => handleRowClick(job)} hover>
+            {jobs.map((job, index) => (
+              <TableRow
+                key={job.id || index}
+                onClick={() => handleRowClick(job)}
+                hover
+              >
                 <TableCell>{job.title}</TableCell>
                 <TableCell>{job.company}</TableCell>
                 <TableCell>{job.jobType}</TableCell>
