@@ -5,11 +5,10 @@ const Job = require('../models/Job');
 
 router.get('/', async (req, res) => {
   try {
-    // Fetch data from the external API (JSON format)
     const { data } = await axios.get('https://jobicy.com/api/v2/remote-jobs');
 
     // Loop through job items in the JSON data
-    const jobItems = data.jobs; // Assuming the jobs are under a 'jobs' key
+    const jobItems = data.jobs;
     for (let item of jobItems) {
       const jobData = {
         title: item.jobTitle,
