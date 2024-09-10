@@ -1,0 +1,14 @@
+{
+  "paidUser": {
+    "name": "Paid User",
+    "email": "paiduser@example.com",
+    "password": "StrongP@ssw0rd!",
+    "role": "Paid User"
+  },
+  "freeUser": {
+    "name": "Free User",
+    "email": "freeuser@example.com",
+    "password": "StrongP@ssw0rd!",
+    "role": "Free User"
+  }
+}
