@@ -11,11 +11,24 @@ const LoginForm = () => {
     password: Yup.string().required('Password is required'),
   });
 
+  const handleSubmit = async (values) => {
+    const resultAction = await dispatch(loginUser(values));
+    if (loginUser.fulfilled.match(resultAction)) {
+      // Save token to localStorage
+      localStorage.setItem('token', resultAction.payload.token);
+      // Redirect or update state to show logged-in content
+      window.location.href = '/jobs'; // Redirect to jobs page or use router
+    } else {
+      // Handle login error
+      alert('Login failed');
+    }
+  };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
-      onSubmit={(values) => dispatch(loginUser(values))}
+      onSubmit={handleSubmit}
     >
       <Form>
         <Field name='email' placeholder='Email' />

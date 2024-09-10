@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../src/axiosConfig';
 
 // Define the initial state for the jobs slice
 const initialState = {
@@ -10,7 +10,8 @@ const initialState = {
 
 // Define an asynchronous thunk to fetch job data
 export const fetchJobs = createAsyncThunk('jobs/fetchJobs', async () => {
-  const response = await axios.get('https://jobicy.com/jobs-rss-feed'); // Adjust the URL as needed
+  // const response = await axios.get('https://jobicy.com/jobs-rss-feed'); // Adjust the URL as needed
+  const response = await axios.get('http://localhost:5000/api/jobs'); // Adjust the URL as needed
   return response.data;
 });
 
