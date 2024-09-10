@@ -11,12 +11,8 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const { user } = useSelector((state) => {
-    console.log('state on App', state);
-
     return state.auth;
   });
-
-  console.log('user', user);
 
   return (
     <Router>

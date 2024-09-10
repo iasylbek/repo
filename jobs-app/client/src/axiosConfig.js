@@ -7,5 +7,4 @@ if (typeof window !== 'undefined') {
   }
 }
 
-console.log('Axios default headers:', axios.defaults.headers.common); // Log headers to check if token is included
 export default axios;

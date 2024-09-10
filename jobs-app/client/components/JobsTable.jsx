@@ -12,7 +12,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchJobs } from '../features/jobsSlice';
-import axios from '../src/axiosConfig';
 
 const JobsTable = () => {
   const dispatch = useDispatch();
@@ -23,11 +22,6 @@ const JobsTable = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(
-      'Making API request with token:',
-      axios.defaults.headers.common['Authorization']
-    );
-
     if (user) {
       dispatch(fetchJobs());
     }
