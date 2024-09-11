@@ -1,4 +1,5 @@
-import { DataGrid } from '@mui/x-data-grid';
+import React from 'react';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchJobs } from '../features/jobsSlice';
@@ -26,12 +27,25 @@ const JobsTable = () => {
     }
   };
 
-  const columns = [
-    { field: 'title', headerName: 'Job Title', flex: 1 },
-    { field: 'company', headerName: 'Company Name', flex: 1 },
-    { field: 'jobType', headerName: 'Job Type', flex: 1 },
-    { field: 'jobLevel', headerName: 'Job Level', flex: 1 },
-  ];
+  const VISIBLE_FIELDS = React.useMemo(
+    () => ['title', 'company', 'jobType', 'jobLevel'],
+    []
+  );
+
+  const columns = React.useMemo(
+    () => [
+      { field: 'title', headerName: 'Job Title', flex: 1 },
+      { field: 'company', headerName: 'Company Name', flex: 1 },
+      { field: 'jobType', headerName: 'Job Type', flex: 1 },
+      { field: 'jobLevel', headerName: 'Job Level', flex: 1 },
+    ],
+    []
+  );
+
+  const columnsFiltered = React.useMemo(
+    () => columns.filter((column) => VISIBLE_FIELDS.includes(column.field)),
+    [VISIBLE_FIELDS, columns]
+  );
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -40,7 +54,7 @@ const JobsTable = () => {
     <div>
       <DataGrid
         rows={jobs}
-        columns={columns}
+        columns={columnsFiltered}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
         }}
@@ -59,6 +73,12 @@ const JobsTable = () => {
           },
           '& .MuiDataGrid-row': {
             borderBottom: '1px solid #e0e0e0',
+          },
+        }}
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
           },
         }}
       />
