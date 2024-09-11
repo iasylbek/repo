@@ -1,23 +1,13 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Modal,
-  Typography,
-  Paper,
-} from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchJobs } from '../features/jobsSlice';
+import { Modal, Typography } from '@mui/material';
 
 const JobsTable = () => {
   const dispatch = useDispatch();
   const { jobs, loading, error } = useSelector((state) => state.jobs);
   const { user } = useSelector((state) => state.auth);
-
   const [selectedJob, setSelectedJob] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -36,39 +26,42 @@ const JobsTable = () => {
     }
   };
 
+  const columns = [
+    { field: 'title', headerName: 'Job Title', flex: 1 },
+    { field: 'company', headerName: 'Company Name', flex: 1 },
+    { field: 'jobType', headerName: 'Job Type', flex: 1 },
+    { field: 'jobLevel', headerName: 'Job Level', flex: 1 },
+  ];
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div style={{ minidth: '100%', alignSelf: 'center' }}>
-      <TableContainer component={Paper} style={{ width: '100%' }}>
-        <Table style={{ width: '100%' }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Job Title</TableCell>
-              <TableCell>Company Name</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Posted Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {jobs.map((job, index) => (
-              <TableRow
-                key={job._id || index}
-                onClick={() => handleRowClick(job)}
-                hover
-              >
-                <TableCell>{job.title}</TableCell>
-                <TableCell>{job.company}</TableCell>
-                <TableCell>{job.location}</TableCell>
-                <TableCell>
-                  {new Date(job.datePosted).toLocaleDateString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div>
+      <DataGrid
+        rows={jobs}
+        columns={columns}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={user.role === 'Paid User' ? [10, 20, 50] : [10]}
+        onRowClick={(params) => handleRowClick(params.row)}
+        getRowId={(row) => row._id}
+        sx={{
+          '& .MuiDataGrid-row:nth-of-type(even)': {
+            backgroundColor: '#f5f5f5',
+          },
+          '& .MuiDataGrid-row:nth-of-type(odd)': {
+            backgroundColor: '#ffffff',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: '#e0f7fa',
+          },
+          '& .MuiDataGrid-row': {
+            borderBottom: '1px solid #e0e0e0',
+          },
+        }}
+      />
 
       {selectedJob && (
         <Modal open={open} onClose={() => setOpen(false)}>
